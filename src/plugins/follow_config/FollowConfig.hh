@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2021 Open Source Robotics Foundation
+ * Copyright (C) 2023 Rudis Laboratories LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,9 +14,8 @@
  * limitations under the License.
  *
 */
-
-#ifndef GZ_GUI_PLUGINS_CAMERATRACKING_HH_
-#define GZ_GUI_PLUGINS_CAMERATRACKING_HH_
+#ifndef GZ_GUI_PLUGINS_FOLLOWCONFIG_HH_
+#define GZ_GUI_PLUGINS_FOLLOWCONFIG_HH_
 
 #include <memory>
 
@@ -28,42 +27,40 @@ namespace gui
 {
 namespace plugins
 {
-  class CameraTrackingPrivate;
+  class FollowConfigPrivate;
 
-  /// \brief This plugin provides camera tracking capabilities such as "move to"
-  /// and "follow".
-  ///
-  /// Services:
-  /// * `/gui/move_to`: Move the user camera to look at a given target,
-  ///                   identified by name.
-  /// * `/gui/move_to/pose`: Move the user camera to a given pose.
-  /// * `/gui/follow`: Set the user camera to follow a given target,
-  ///                   identified by name.
-  /// * `/gui/follow/p_gain`: Set the pgain for following.
-  /// * `/gui/follow/offset`: Set the offset for following.
-  ///
-  /// Topics:
-  /// * `/gui/camera/pose`: Publishes the current user camera pose.
-  class CameraTracking : public Plugin
+  class FollowConfig : public Plugin
   {
     Q_OBJECT
 
     /// \brief Constructor
-    public: CameraTracking();
+    public: FollowConfig();
 
     /// \brief Destructor
-    public: virtual ~CameraTracking();
+    public: virtual ~FollowConfig();
 
     // Documentation inherited
     public: virtual void LoadConfig(const tinyxml2::XMLElement *_pluginElem)
         override;
+
+    /// \brief Set the follow offset, requested from the GUI.
+    /// \param[in] _x The follow offset distance in x
+    /// \param[in] _y The follow offset distance in y
+    /// \param[in] _z The follow offset distance in z
+    public slots: void SetFollowOffset(double _x,
+          double _y, double _z);
+
+    /// \brief Set the follow pgain, requested from the GUI.
+    /// \param[in] _p The follow offset distance in x
+    public slots: void SetFollowPGain(double _p);
+
 
     // Documentation inherited
     private: bool eventFilter(QObject *_obj, QEvent *_event) override;
 
     /// \internal
     /// \brief Pointer to private data.
-    private: std::unique_ptr<CameraTrackingPrivate> dataPtr;
+    private: std::unique_ptr<FollowConfigPrivate> dataPtr;
   };
 }
 }

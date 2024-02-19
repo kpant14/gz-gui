@@ -687,10 +687,6 @@ void GzRenderer::Destroy()
 
     // TODO(anyone) If that was the last scene, terminate engine?
   }
-
-  // clean up in the rendering thread
-  this->dataPtr->camera.reset();
-  this->dataPtr->rayQuery.reset();
 }
 
 /////////////////////////////////////////////////
